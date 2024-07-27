@@ -1,18 +1,34 @@
-import axios from 'axios';
+import { Axios } from "axios";
 
+const axios = new Axios({
+  baseURL: import.meta.env.VITE_API,
+});
 
+axios.interceptors.request.use(
+  function (config) {
+    const accessToken = sessionStorage.getItem("token");
+    if (accessToken) {
+      config.headers.set("Authorization", `Bearer ${accessToken}`);
+    }
+    if (config.headers["Content-Type"] == null) {
+      config.headers.setContentType("application/json");
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
-
-
-const baseUrl = 'https://api.ayoba.me/v2/login'
-
-export default async function login(username=import.meta.env.VITE_USERNAME, password=import.meta.env.VITE_PASSWORD) {
-    const payload = {
-        "username": username,
-        "password": password,
-      }
-    const results = await axios.post(baseUrl, payload)
-    return results.data;
-}
-
-
+axios.interceptors.response.use(
+  function (config) {
+    if (config.status === 403) {
+      window.location.href = "/auth/";
+      sessionStorage.removeItem("token");
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
