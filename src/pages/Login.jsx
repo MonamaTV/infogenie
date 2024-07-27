@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import login from "../services/authentication";
+import useLogin from "../hooks/useAuth";
 
 const Login = () => {
-  useEffect(() => {
-    const loginUser = async () => {
-      const res = await login("", "");
-      console.log(res);
-    };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, isLoading } = useLogin();
 
-    loginUser();
-  }, []);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(username, password);
+  };
+
   return (
     <div className="w-screen flex h-[100vh] flex-row justify-between items-center">
       <form
@@ -27,6 +29,8 @@ const Login = () => {
             Username
           </label>
           <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="py-1 px-2 border w-full outline-none my-2 rounded-sm"
             type="text"
           />
@@ -36,13 +40,19 @@ const Login = () => {
             Password
           </label>
           <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="py-1 px-2 border w-full outline-none my-2 rounded-sm"
             type="password"
           />
         </div>
         <div className="w-1/2 flex flex-col">
-          <button className="bg-blue-500 rounded-sm text-white py-2 block text-sm ">
-            Login
+          <button
+            disabled={isLoading}
+            onClick={handleLogin}
+            className="bg-blue-500 rounded-sm text-white py-2 block text-sm "
+          >
+            {isLoading ? "Submitting" : "Sign in"}
           </button>
         </div>
         <div className="w-1/2 flex flex-col">

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import loginUser from "../services/authentication";
 
@@ -19,7 +18,7 @@ const useLogin = () => {
       console.log(response);
       const data = JSON.parse(response.data);
 
-      if (status === 200) {
+      if (status === 201) {
         setIsLoggedIn(true);
         sessionStorage.setItem("token", data.access_token);
         navigate("/dashboard");

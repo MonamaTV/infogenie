@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router";
+import { PrivateRoute } from "./ProtectedRoute";
 
 const Nav = () => {
   return (
@@ -9,7 +10,9 @@ const Nav = () => {
           Info<span className="text-yellow-400">GENIE</span>
         </h2>
       </nav>
-      <Outlet />
+      <PrivateRoute redirectPath={"/auth"}>
+        <Outlet />
+      </PrivateRoute>
     </div>
   );
 };
