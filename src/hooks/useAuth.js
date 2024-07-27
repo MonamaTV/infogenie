@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import loginUser from "../services/authentication";
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -15,18 +16,19 @@ const useLogin = () => {
     try {
       const response = await loginUser(email, password);
       const status = response.status;
+      console.log(response);
       const data = JSON.parse(response.data);
 
       if (status === 200) {
         setIsLoggedIn(true);
         sessionStorage.setItem("token", data.access_token);
-        navigate("/");
+        navigate("/dashboard");
       } else {
-        toast.error(data.detail);
+        // toast.error(data.detail);
         sessionStorage.removeItem("token");
       }
     } catch (err) {
-      toast.error("An error occurred. Please try again.");
+      // toast.error("An error occurred. Please try again.");
       sessionStorage.removeItem("token");
     } finally {
       setIsLoading(false);
@@ -36,7 +38,7 @@ const useLogin = () => {
   const logout = () => {
     setIsLoggedIn(false);
     sessionStorage.removeItem("token");
-    window.location.href = "/auth/login";
+    window.location.href = "/auth";
   };
 
   const getToken = () => {

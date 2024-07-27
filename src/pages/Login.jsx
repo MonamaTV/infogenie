@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import login from "../services/authentication";
 
 const Login = () => {
+  useEffect(() => {
+    const loginUser = async () => {
+      const res = await login("", "");
+      console.log(res);
+    };
+
+    loginUser();
+  }, []);
   return (
     <div className="w-screen flex h-[100vh] flex-row justify-between items-center">
       <form

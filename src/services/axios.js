@@ -1,11 +1,11 @@
 import { Axios } from "axios";
-
 const axios = new Axios({
   baseURL: import.meta.env.VITE_API,
 });
 
 axios.interceptors.request.use(
   function (config) {
+    console.log("Session", sessionStorage.getItem("token"));
     const accessToken = sessionStorage.getItem("token");
     if (accessToken) {
       config.headers.set("Authorization", `Bearer ${accessToken}`);
@@ -32,3 +32,5 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default axios;
