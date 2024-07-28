@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import login from "../services/authentication";
 import useLogin from "../hooks/useAuth";
-
+import { getTranslation } from "../services/translation";
 const Login = () => {
+  useEffect(() => {
+    
+    const result = getTranslation("hello world!", "en", "zu");
+    console.log(result);
+   }, []);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading } = useLogin();

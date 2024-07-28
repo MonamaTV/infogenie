@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Login from "./pages/Login";
-
 const App = () => {
+   
   return <Login />;
 };
 
