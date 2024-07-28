@@ -53,3 +53,7 @@ export async function getLanguageIso( textToTranslate) {
 }
 
 
+export async function requestFormalTranslation( textToTranslate, languageToTranslateTo ) {
+    
+}
+
